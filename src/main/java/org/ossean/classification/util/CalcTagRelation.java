@@ -121,7 +121,7 @@ public class CalcTagRelation {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		CalcTagRelation calc = new CalcTagRelation();
-		String tag = "database";
+		String tag = "music";
 		calc.calc(tag);
 		//String path = calc.prePath + calc.now;
 		//Runtime.getRuntime().exec(

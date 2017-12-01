@@ -75,13 +75,13 @@ public class sontree {
 				}
 			}
 		}
-		if(str.equals("web"))
+		if(str.equals("music"))
 			fw.close();
 	}
 	
 	public static void main(String[] args) throws IOException {
 		sontree csf = new sontree();
-		String str = "web";
+		String str = "music";
 		csf.draw(str);
 	}
 

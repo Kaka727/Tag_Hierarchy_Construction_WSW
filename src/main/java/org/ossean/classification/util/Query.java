@@ -387,14 +387,14 @@ public class Query {
 		List<String> tags = new ArrayList<String>();
 		Connection conn = c3p0Utils.getConnection();
 		//String sql = "select * from openhub_tag_co_num_2015_05_13";
-		String sql = "select * from tags_sof";
+		String sql = "select * from tag_generality where generality > 1000";
 		ResultSet rs = null;
 		PreparedStatement pst = null;
 		try {
 			pst = conn.prepareStatement(sql);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				tags.add(rs.getString("TagName"));
+				tags.add(rs.getString("tag"));
 			}
 			rs.close();
 			pst.close();
@@ -434,7 +434,7 @@ public class Query {
 	public List<String> getimportantPoint(){
 		List<String> point = new ArrayList<String>();
 		Connection conn = c3p0Utils.getConnection();
-		String sql = "select * from tag_generality where generality > 1000";
+		String sql = "select * from tag_generality where generality > 6000";
 		ResultSet rs = null;
 		PreparedStatement pst = null;
 		try {
@@ -442,8 +442,10 @@ public class Query {
 			pst = conn.prepareStatement(sql);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				point.add(rs.getString("tag"));
+				point.add(rs.getString("tag"));	
+				System.out.println(rs.getString("tag"));
 			}
+			System.out.println("endinginginginging");
 			rs.close();
 			pst.close();
 			conn.close();
@@ -453,6 +455,90 @@ public class Query {
 		}
 		return point;
 	}
+	
+	public Boolean is_cooccurrence(String t1, String t2){
+		Connection conn = c3p0Utils.getConnection();
+		String sql = "select * from tag_correlation where tag1 = ? and tag2 = ? ";
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		Boolean i = false;
+		try {
+			conn.setAutoCommit(false);
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, t1);
+			pst.setString(2, t2);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+					if(rs.getInt("weight") > 100)
+					i = true;
+					break;
+			}
+			rs.close();
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return i;
+	}
+	
+	
+	
+	public Map<String, Integer> getgenerality(List<String> t){
+		//List<String> point = new ArrayList<String>();
+		Connection conn = c3p0Utils.getConnection();
+		String sql = "select * from tag_generality";
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		HashMap<String, Integer> a = new HashMap<String, Integer>();
+		try {
+			conn.setAutoCommit(false);
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				if(t.contains(rs.getString("tag")))
+				{
+					a.put(rs.getString("tag"), rs.getInt("generality"));
+					System.out.println(rs.getString("tag"));
+				}
+			}
+			System.out.println("endedededededd");
+			rs.close();
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return a;
+	}
+	
+	public Integer getcooccurrence(String t1, String t2){
+		Connection conn = c3p0Utils.getConnection();
+		String sql = "select * from tag_correlation where tag1 = ? and tag2 = ? ";
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		int i = 0;
+		try {
+			conn.setAutoCommit(false);
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, t1);
+			pst.setString(2, t2);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+					i = rs.getInt("weight");
+			}
+			rs.close();
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return i;
+	}
+	
 	
 	public Map<TagPair, Integer> getTagPairsOP(){
 		Map<TagPair, Integer> tagPairs = new HashMap<TagPair, Integer>();
@@ -625,6 +711,23 @@ public class Query {
 		}
 	}
 	
+	public void save_occurrence(String tag, int g){
+		Connection conn = c3p0Utils.getConnection();
+		String sql = "insert into tag_occurrence (tag, occurrence) VALUES (?, ?)";
+		PreparedStatement pst = null;
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, tag);
+			pst.setInt(2, g);
+			pst.execute();
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void save2(String s1, String s2, int g){
 		Connection conn = c3p0Utils.getConnection();
 		String sql = "insert into tag_correlation (tag1, tag2, weight) VALUES (?, ?, ?)";
@@ -733,4 +836,31 @@ public class Query {
 		}
 		return openhubTags;
 	}*/
+	
+	public int tag_occurrence (String t){
+		Connection conn = c3p0Utils.getConnection();
+		String sql = "select * from openhub_datas";
+		int i = 0;
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				String str = rs.getString("tags");
+				if(str.contains(t))
+				{
+					i++;
+				}
+			}
+			rs.close();
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return i;
+	}
+	
 }

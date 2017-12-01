@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="tag-hierarchy@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.4">
+    <root id="1"/>
+    <schema id="2" parent="1" name="tag-hierarchy">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="mysql"/>
+    <schema id="5" parent="1" name="performance_schema"/>
+    <schema id="6" parent="1" name="test"/>
+    <table id="7" parent="2" name="openhub_datas"/>
+    <table id="8" parent="2" name="sof_datas"/>
+    <table id="9" parent="2" name="tag_correlation"/>
+    <table id="10" parent="2" name="tag_generality"/>
+    <table id="11" parent="2" name="tag_occurrence"/>
+    <column id="12" parent="7" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="13" parent="7" name="tags">
+      <Position>2</Position>
+      <DataType>char(255)|0</DataType>
+    </column>
+    <column id="14" parent="8" name="Id">
+      <Position>1</Position>
+      <DataType>char(8)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="15" parent="8" name="Tags">
+      <Position>2</Position>
+      <DataType>char(100)|0</DataType>
+    </column>
+    <column id="16" parent="9" name="tag1">
+      <Position>1</Position>
+      <DataType>char(100)|0</DataType>
+    </column>
+    <column id="17" parent="9" name="tag2">
+      <Position>2</Position>
+      <DataType>char(100)|0</DataType>
+    </column>
+    <column id="18" parent="9" name="weight">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="19" parent="10" name="tag">
+      <Position>1</Position>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="20" parent="10" name="generality">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="21" parent="11" name="tag">
+      <Position>1</Position>
+      <DataType>char(1)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="22" parent="11" name="occurrence">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <key id="23" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>tag</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

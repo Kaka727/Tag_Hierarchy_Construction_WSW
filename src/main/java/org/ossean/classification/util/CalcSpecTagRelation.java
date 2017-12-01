@@ -177,7 +177,7 @@ public class CalcSpecTagRelation {
 
 	public static void main(String[] args) throws IOException{
 		CalcSpecTagRelation calc = new CalcSpecTagRelation();
-		String tag = "html";
+		String tag = "web";
 		tags = query.getSpecTags(tag);
 		tags.add(tag);
 		for(int i=0; i<tags.size(); i++)
